@@ -116,17 +116,17 @@ const Header = () => {
         );
         const catFacts = res.data.data;
         let newArray = [];
-        console.log(catFacts);
+
         catFacts.forEach((el) =>
           newArray.push({
             done: false,
             id: generateRandomId(),
-            task: el.fact,
+            task: el.fact.toLowerCase(),
           })
         );
         setTasks([...tasks, ...newArray]);
         localStorage.setItem("tasks", JSON.stringify([...tasks, ...newArray]));
-        console.log(tasks);
+
         Swal.fire({
           icon: "success",
           title: "Cat facts added to your list",
@@ -237,10 +237,10 @@ const Header = () => {
             </button>
           ) : (
             <button
-              class="btn btn-outline-info"
+              className="btn btn-outline-info"
               onClick={(e) => handleEditTasks(e)}
             >
-              Edit
+              Update
             </button>
           )}
         </div>
