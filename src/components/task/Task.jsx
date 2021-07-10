@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-scroll";
@@ -9,7 +9,7 @@ import "bootswatch/dist/cosmo/bootstrap.min.css";
 import { TaskContext } from "../../context/TaskProvider";
 import { ModeContext } from "../../context/ModeProvider";
 const Task = ({ item, index }) => {
-  const { tasks, setTasks, edit, setEdit, task, setTask, idTask, setIdTask } =
+  const { tasks, setTasks, setEdit, setTask, setIdTask } =
     useContext(TaskContext);
   const { darkMode } = useContext(ModeContext);
 

@@ -8,6 +8,7 @@ import "./header.css";
 import Swal from "sweetalert2";
 import { TaskContext } from "../../context/TaskProvider";
 import { ModeContext } from "../../context/ModeProvider";
+import PopUpFacts from "../pop-up/PopUpFacts";
 const Header = () => {
   //-------------------CONTEXT-----------------//
   const { darkMode, setDarkMode } = useContext(ModeContext);
@@ -21,15 +22,15 @@ const Header = () => {
     idTask,
     filterTask,
     setFilterTask,
-    filterArray,
+
     setFilterArray,
   } = useContext(TaskContext);
 
   //----------------------------COMPONENTS STATES---------------------------------------------------//
 
   const [checked, setChecked] = useState(false);
-  const [limit, setLimit] = useState(4);
-  const [showModalCat, setShowModalCat] = useState(false);
+  const [limit, setLimit] = useState("");
+  const [showPopUp, setShowPopUp] = useState(false);
 
   /*------------------------------------HANDLES------------------------------------------------- */
 
@@ -95,25 +96,46 @@ const Header = () => {
     }
   };
 
-  const handleGet = async (limit) => {
-    try {
-      const res = await axios.get(
-        `https://catfact.ninja/facts?limit=${limit}&max_length=140`
-      );
-      const catFacts = res.data.data;
-      let newArray = [];
-      console.log(catFacts);
-      catFacts.forEach((el) =>
-        newArray.push({
-          done: false,
-          id: generateRandomId(),
-          task: el.fact,
-        })
-      );
-      setTasks([...tasks, ...newArray]);
-      console.log(tasks);
-    } catch (error) {
-      console.log(error);
+  const handleShowPopUp = () => {
+    setShowPopUp(true);
+  };
+
+  const handleAddFacts = async (e, limit) => {
+    e.preventDefault();
+    if (limit.trim() && limit <= 300) {
+      try {
+        const res = await axios.get(
+          `https://catfact.ninja/facts?limit=${limit}&max_length=140`
+        );
+        const catFacts = res.data.data;
+        let newArray = [];
+        console.log(catFacts);
+        catFacts.forEach((el) =>
+          newArray.push({
+            done: false,
+            id: generateRandomId(),
+            task: el.fact,
+          })
+        );
+        setTasks([...tasks, ...newArray]);
+        localStorage.setItem("tasks", JSON.stringify([...tasks, ...newArray]));
+        console.log(tasks);
+        Swal.fire({
+          icon: "success",
+          title: "Cat facts added to your list",
+        });
+        setLimit("");
+        setShowPopUp(false);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Out of range",
+        text: "Please type a valid number!",
+      });
+      setLimit("");
     }
   };
 
@@ -171,7 +193,9 @@ const Header = () => {
         ) : (
           <h3 className="title-session">Add a new to-do</h3>
         )}
-        <button onClick={() => handleGet(limit)}>Generate</button>
+        <button className="btn btn-secondary" onClick={() => handleShowPopUp()}>
+          Generate
+        </button>
       </div>
       <form
         className={edit ? "add_task_sesion on-edit-mode" : "add_task_sesion"}
@@ -222,6 +246,13 @@ const Header = () => {
         placeholder="find to-do..."
         autoFocus={true}
       />
+      {showPopUp ? (
+        <PopUpFacts
+          limit={limit}
+          setLimit={setLimit}
+          handleAddFacts={handleAddFacts}
+        />
+      ) : null}
     </div>
   );
 };

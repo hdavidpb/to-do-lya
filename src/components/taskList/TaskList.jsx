@@ -5,8 +5,7 @@ import Task from "../task/Task";
 import "./taskList.css";
 import Swal from "sweetalert2";
 const TaskList = () => {
-  const { tasks, setTasks, filterArray, setFilterArray } =
-    useContext(TaskContext);
+  const { tasks, setTasks, filterArray } = useContext(TaskContext);
   const { darkMode } = useContext(ModeContext);
 
   const [tasksLeft, setTasksLeft] = useState(tasks);
@@ -103,7 +102,7 @@ const TaskList = () => {
           </li>
         </ul>
       ) : (
-        <div className="tasks_container"> Not tasks yet...</div>
+        <div className="tasks_container"> Not to do yet...</div>
       )}
     </div>
   );
