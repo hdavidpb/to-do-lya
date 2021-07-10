@@ -109,7 +109,7 @@ const Header = () => {
 
   const handleAddFacts = async (e, limit) => {
     e.preventDefault();
-    if (limit.trim() && limit <= 300 && limit !== "0") {
+    if (limit.trim() && limit <= 240 && limit !== "0") {
       try {
         const res = await axios.get(
           `https://catfact.ninja/facts?limit=${limit}&max_length=140`

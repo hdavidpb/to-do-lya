@@ -29,7 +29,7 @@ const PopUpFacts = ({ limit, setLimit, handleAddFacts }) => {
           placeholder="type a number of facts..."
           onChange={(e) => setLimit(e.target.value)}
         />
-        <label> Limit : 300</label>
+        <label> Limit : 240</label>
         <button
           className="btn btn-info"
           onClick={(e) => handleAddFacts(e, limit)}
