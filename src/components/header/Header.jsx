@@ -77,6 +77,7 @@ const Header = () => {
       const newArrayTasks = tasks.map((el) =>
         el.id === idTask ? { id: el.id, done: el.done, task: task } : el
       );
+      localStorage.setItem("tasks", JSON.stringify(newArrayTasks));
       setTasks(newArrayTasks);
       setTask("");
       setEdit(false);
