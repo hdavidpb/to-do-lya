@@ -1,7 +1,7 @@
 .ckecked {
   text-decoration: line-through;
   font-weight: 100;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 input[type="checkbox"] + label {

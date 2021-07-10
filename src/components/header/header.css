@@ -57,7 +57,7 @@
 }
 .on-edit-mode {
   border: solid 3px rgb(140, 85, 230);
-  box-shadow: 1px 2px 2px 2px rgba(255, 255, 255, 0.624);
+  box-shadow: 1px 2px 2px 2px rgb(140, 85, 230);
 }
 
 .add-edit-box {
@@ -85,25 +85,47 @@ form input {
   color: white;
   font-weight: bold;
 }
-.filter-task {
+.filter-task-container {
   width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
   top: -1rem;
   padding: 0.5rem;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.385);
+  z-index: 100;
+  background: white;
+  border-radius: 10px;
+}
+
+.filter-task {
+  width: 100%;
+
   padding-left: 1rem;
   border: none;
-  border-radius: 20px;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.385);
+
   outline: none;
-  z-index: 100;
+  z-index: 1000;
+  color: black;
 }
 .title-header-box {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   gap: 1rem;
   width: 90%;
   z-index: 100;
+}
+.genearte-facts-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.icon {
+  font-size: 30px;
+  color: white;
 }
 
 @media (min-width: 1440px) {
@@ -114,7 +136,10 @@ form input {
     width: 40%;
     padding: 7px;
   }
-  .filter-task {
+  .filter-task-container {
+    width: 40%;
+  }
+  .title-header-box {
     width: 40%;
   }
 }

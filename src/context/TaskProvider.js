@@ -6,7 +6,7 @@ const TaskProvider = (props) => {
   const [tasks, setTasks] = useState([]);
   const [edit, setEdit] = useState(false);
   const [idTask, setIdTask] = useState(null);
-
+  const [showPopUp, setShowPopUp] = useState(false);
   const [filterArray, setFilterArray] = useState([]);
   useEffect(() => {
     if (localStorage.getItem("tasks")) {
@@ -32,6 +32,8 @@ const TaskProvider = (props) => {
 
         filterArray,
         setFilterArray,
+        showPopUp,
+        setShowPopUp,
       }}
     >
       {props.children}

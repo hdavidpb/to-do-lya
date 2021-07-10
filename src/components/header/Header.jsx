@@ -1,14 +1,19 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
+
+import { TaskContext } from "../../context/TaskProvider";
+import { ModeContext } from "../../context/ModeProvider";
+import PopUpFacts from "../pop-up/PopUpFacts";
+
 import darkImage from "../../assets/images/bg-mobile-dark.jpg";
 import lightImage from "../../assets/images/bg-mobile-light.jpg";
 import moon from "../../assets/images/icon-moon.svg";
 import sun from "../../assets/images/icon-sun.svg";
 import "./header.css";
 import Swal from "sweetalert2";
-import { TaskContext } from "../../context/TaskProvider";
-import { ModeContext } from "../../context/ModeProvider";
-import PopUpFacts from "../pop-up/PopUpFacts";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCat, faSearch } from "@fortawesome/free-solid-svg-icons";
+
 const Header = () => {
   //-------------------CONTEXT-----------------//
   const { darkMode, setDarkMode } = useContext(ModeContext);
@@ -24,13 +29,14 @@ const Header = () => {
     setFilterTask,
 
     setFilterArray,
+    showPopUp,
+    setShowPopUp,
   } = useContext(TaskContext);
 
   //----------------------------COMPONENTS STATES---------------------------------------------------//
 
   const [checked, setChecked] = useState(false);
   const [limit, setLimit] = useState("");
-  const [showPopUp, setShowPopUp] = useState(false);
 
   /*------------------------------------HANDLES------------------------------------------------- */
 
@@ -77,6 +83,7 @@ const Header = () => {
 
   const handleEditTasks = (e) => {
     e.preventDefault();
+
     if (task.trim()) {
       const newArrayTasks = tasks.map((el) =>
         el.id === idTask ? { id: el.id, done: el.done, task: task } : el
@@ -146,7 +153,7 @@ const Header = () => {
       el.task.includes(filterTask.toLowerCase())
     );
     setFilterArray(newArray);
-  }, [filterTask, tasks]);
+  }, [filterTask, tasks, setFilterArray]);
 
   useEffect(() => {
     if (!task.trim()) {
@@ -193,9 +200,12 @@ const Header = () => {
         ) : (
           <h3 className="title-session">Add a new to-do</h3>
         )}
-        <button className="btn btn-secondary" onClick={() => handleShowPopUp()}>
-          Generate
-        </button>
+        <div className="genearte-facts-box">
+          <FontAwesomeIcon className="icon" icon={faCat} />
+          <button className="btn btn-light" onClick={() => handleShowPopUp()}>
+            Generate cat facts
+          </button>
+        </div>
       </div>
       <form
         className={edit ? "add_task_sesion on-edit-mode" : "add_task_sesion"}
@@ -235,22 +245,23 @@ const Header = () => {
           )}
         </div>
       </form>
-      <input
-        style={{
-          color: darkMode && "white",
-        }}
-        value={filterTask}
-        onChange={(e) => setFilterTask(e.target.value)}
-        type="text"
-        className="filter-task"
-        placeholder="find to-do..."
-        autoFocus={true}
-      />
+      <div className="filter-task-container">
+        <FontAwesomeIcon icon={faSearch} />
+        <input
+          value={filterTask}
+          onChange={(e) => setFilterTask(e.target.value)}
+          type="text"
+          className="filter-task"
+          placeholder="find to-do..."
+        />
+      </div>
+
       {showPopUp ? (
         <PopUpFacts
           limit={limit}
           setLimit={setLimit}
           handleAddFacts={handleAddFacts}
+          setShowPopUp={setShowPopUp}
         />
       ) : null}
     </div>

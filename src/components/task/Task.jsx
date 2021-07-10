@@ -9,11 +9,12 @@ import "bootswatch/dist/cosmo/bootstrap.min.css";
 import { TaskContext } from "../../context/TaskProvider";
 import { ModeContext } from "../../context/ModeProvider";
 const Task = ({ item, index }) => {
-  const { tasks, setTasks, setEdit, setTask, setIdTask } =
+  const { tasks, setTasks, setEdit, setTask, setIdTask, setShowPopUp } =
     useContext(TaskContext);
   const { darkMode } = useContext(ModeContext);
 
   const handleDeleteTask = (id) => {
+    setShowPopUp(false);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -44,6 +45,7 @@ const Task = ({ item, index }) => {
   };
 
   const handleEdit = (item) => {
+    setShowPopUp(false);
     setEdit(true);
     setTask(item.task);
     setIdTask(item.id);
