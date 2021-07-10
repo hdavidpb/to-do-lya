@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import axios from "axios";
 import darkImage from "../../assets/images/bg-mobile-dark.jpg";
 import lightImage from "../../assets/images/bg-mobile-light.jpg";
 import moon from "../../assets/images/icon-moon.svg";
@@ -27,6 +28,8 @@ const Header = () => {
   //----------------------------COMPONENTS STATES---------------------------------------------------//
 
   const [checked, setChecked] = useState(false);
+  const [limit, setLimit] = useState(4);
+  const [showModalCat, setShowModalCat] = useState(false);
 
   /*------------------------------------HANDLES------------------------------------------------- */
 
@@ -92,6 +95,28 @@ const Header = () => {
     }
   };
 
+  const handleGet = async (limit) => {
+    try {
+      const res = await axios.get(
+        `https://catfact.ninja/facts?limit=${limit}&max_length=140`
+      );
+      const catFacts = res.data.data;
+      let newArray = [];
+      console.log(catFacts);
+      catFacts.forEach((el) =>
+        newArray.push({
+          done: false,
+          id: generateRandomId(),
+          task: el.fact,
+        })
+      );
+      setTasks([...tasks, ...newArray]);
+      console.log(tasks);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     setFilterArray(...tasks);
 
@@ -140,11 +165,14 @@ const Header = () => {
           alt="buttonChange"
         />
       </div>
-      {edit ? (
-        <h3 className="title-session">Edit to-do</h3>
-      ) : (
-        <h3 className="title-session">Add a new to-do</h3>
-      )}
+      <div className="title-header-box">
+        {edit ? (
+          <h3 className="title-session">Edit to-do</h3>
+        ) : (
+          <h3 className="title-session">Add a new to-do</h3>
+        )}
+        <button onClick={() => handleGet(limit)}>Generate</button>
+      </div>
       <form
         className={edit ? "add_task_sesion on-edit-mode" : "add_task_sesion"}
         onSubmit={

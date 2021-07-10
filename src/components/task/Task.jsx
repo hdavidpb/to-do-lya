@@ -4,6 +4,7 @@ import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-scroll";
 import Swal from "sweetalert2";
 import "./task.css";
+import "bootswatch/dist/cosmo/bootstrap.min.css";
 
 import { TaskContext } from "../../context/TaskProvider";
 import { ModeContext } from "../../context/ModeProvider";

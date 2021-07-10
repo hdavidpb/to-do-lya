@@ -17,22 +17,32 @@ const TaskList = () => {
   }, [tasks]);
 
   const handleDeletedChecked = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const newTasks = tasks.filter((task) => task.done === false);
-        setTasks(newTasks);
-        localStorage.setItem("tasks", JSON.stringify(newTasks));
-        Swal.fire("Deleted!", "", "success");
-      }
-    });
+    if (tasksLeft.length !== tasks.length) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const newTasks = tasks.filter((task) => task.done === false);
+          setTasks(newTasks);
+          localStorage.setItem("tasks", JSON.stringify(newTasks));
+          Swal.fire("Deleted!", "", "success");
+        }
+      });
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "Not to do selected",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   const handleSelectAllItems = () => {
