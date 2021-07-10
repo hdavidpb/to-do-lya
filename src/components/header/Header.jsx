@@ -96,7 +96,7 @@ const Header = () => {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "Successful edit!",
+        title: "Successful Update!",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -187,7 +187,7 @@ const Header = () => {
         alt="bg"
       />
       <div className="title_sesion">
-        <h2>TO DO</h2>
+        <h2>To Do</h2>
         <img
           src={darkMode ? sun : moon}
           onClick={() => handleDarkMode()}
@@ -196,9 +196,13 @@ const Header = () => {
       </div>
       <div className="title-header-box">
         {edit ? (
-          <h3 className="title-session">Edit to-do</h3>
+          <div className="title-sesion-box">
+            <h3 className="title-session">Edit to-do</h3>
+          </div>
         ) : (
-          <h3 className="title-session">Add a new to-do</h3>
+          <div className="title-sesion-box">
+            <h3 className="title-session">Add a new to-do</h3>
+          </div>
         )}
         <div className="genearte-facts-box">
           <FontAwesomeIcon className="icon" icon={faCat} />
@@ -207,55 +211,56 @@ const Header = () => {
           </button>
         </div>
       </div>
-      <form
-        className={edit ? "add_task_sesion on-edit-mode" : "add_task_sesion"}
-        onSubmit={
-          !edit ? (e) => handleAddTask(e) : (e) => handleEditTasks(e, idTask)
-        }
-        style={{
-          background: darkMode && "hsl(235, 24%, 19%)",
-        }}
-      >
-        <div className="add-edit-box">
+      <div className="inputs-box">
+        <form
+          className={edit ? "add_task_sesion on-edit-mode" : "add_task_sesion"}
+          onSubmit={
+            !edit ? (e) => handleAddTask(e) : (e) => handleEditTasks(e, idTask)
+          }
+          style={{
+            background: darkMode && "hsl(235, 24%, 19%)",
+          }}
+        >
+          <div className="add-edit-box">
+            <input
+              style={{
+                color: darkMode && "white",
+              }}
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+              type="text"
+              className="add_task"
+              placeholder="Add a new task..."
+              autoFocus={true}
+            />
+            {!edit ? (
+              <button
+                className="btn btn-outline-primary"
+                onClick={(e) => handleAddTask(e)}
+              >
+                Add
+              </button>
+            ) : (
+              <button
+                className="btn btn-outline-info"
+                onClick={(e) => handleEditTasks(e)}
+              >
+                Update
+              </button>
+            )}
+          </div>
+        </form>
+        <div className="filter-task-container">
+          <FontAwesomeIcon icon={faSearch} />
           <input
-            style={{
-              color: darkMode && "white",
-            }}
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
+            value={filterTask}
+            onChange={(e) => setFilterTask(e.target.value)}
             type="text"
-            className="add_task"
-            placeholder="Add a new task..."
-            autoFocus={true}
+            className="filter-task"
+            placeholder="find to-do..."
           />
-          {!edit ? (
-            <button
-              className="btn btn-outline-primary"
-              onClick={(e) => handleAddTask(e)}
-            >
-              Add
-            </button>
-          ) : (
-            <button
-              className="btn btn-outline-info"
-              onClick={(e) => handleEditTasks(e)}
-            >
-              Update
-            </button>
-          )}
         </div>
-      </form>
-      <div className="filter-task-container">
-        <FontAwesomeIcon icon={faSearch} />
-        <input
-          value={filterTask}
-          onChange={(e) => setFilterTask(e.target.value)}
-          type="text"
-          className="filter-task"
-          placeholder="find to-do..."
-        />
       </div>
-
       {showPopUp ? (
         <PopUpFacts
           limit={limit}
