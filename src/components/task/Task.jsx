@@ -49,7 +49,6 @@ const Task = ({ item, index }) => {
     setEdit(true);
     setTask(item.task);
     setIdTask(item.id);
-    console.log(item.task);
   };
   return (
     <li className="task_item">
